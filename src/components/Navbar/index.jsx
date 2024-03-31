@@ -1,7 +1,9 @@
 import React from "react";
 import { DiCssdeck } from "react-icons/di";
+import { FaBars } from "react-icons/fa";
 import { Link as LinkR } from "react-router-dom";
-import styled from "styled-components";
+import styled, { useTheme } from "styled-components";
+import { Bio } from "../../data/contansts";
 
 const Nav = styled.div`
     background-color: ${({ theme }) => theme.card_light};
@@ -118,7 +120,38 @@ const Span = styled.span`
     font-weight: bold;
     font-size: 18px;
 `;
+const MobileMenu = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 16px;
+    position: absolute;
+    top: 80;
+    right: 0;
+    width: 100%;
+    padding: 12px 40px 24px 40px;
+    background: ${({ theme }) => theme.card_light + 99};
+    transform: ${({ open }) => (open ? "translateX(0)" : "translateX(100%)")};
+    border-radius: 0 0 20px 20px;
+    box-shadow: 0 5 10px 0 rgba(0, 0, 0, 0.3);
+    opacity: ${({ open }) => (open ? "1" : "0")};
+    z-index: ${({ open }) => (open ? "1" : "-1")};
+`;
+
+const MobileMenuLinks = styled(LinkR)`
+    color: ${({ theme }) => theme.text_primary};
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s ease-in-out;
+    &:hover {
+        color: ${({ theme }) => theme.primary};
+    }
+`;
+
 function Navbar() {
+    const [open, setOpen] = React.useState(false);
+    const theme = useTheme();
     return (
         <Nav>
             <NavContainer>
@@ -136,7 +169,9 @@ function Navbar() {
                         <Span>Portfolio</Span>
                     </a>
                 </NavLogo>
-                <MobileIcon></MobileIcon>
+                <MobileIcon>
+                    <FaBars onClick={() => setOpen(!open)} />
+                </MobileIcon>
                 <NavItems>
                     <NavLink href="#about">About</NavLink>
                     <NavLink href="#skills">Skills</NavLink>
@@ -148,6 +183,62 @@ function Navbar() {
                     <GithubButton>Github Profile</GithubButton>
                 </ButtonContainer>
             </NavContainer>
+            {open && (
+                <MobileMenu open={open}>
+                    <MobileMenuLinks
+                        href="#about"
+                        onClick={() => {
+                            setOpen(!open);
+                        }}
+                    >
+                        About
+                    </MobileMenuLinks>
+                    <MobileMenuLinks
+                        href="#skills"
+                        onClick={() => {
+                            setOpen(!open);
+                        }}
+                    >
+                        Skills
+                    </MobileMenuLinks>
+                    <MobileMenuLinks
+                        href="#experience"
+                        onClick={() => {
+                            setOpen(!open);
+                        }}
+                    >
+                        Experience
+                    </MobileMenuLinks>
+                    <MobileMenuLinks
+                        href="#projects"
+                        onClick={() => {
+                            setOpen(!open);
+                        }}
+                    >
+                        Projects
+                    </MobileMenuLinks>
+                    <MobileMenuLinks
+                        href="#education"
+                        onClick={() => {
+                            setOpen(!open);
+                        }}
+                    >
+                        Education
+                    </MobileMenuLinks>
+                    <GithubButton
+                        style={{
+                            padding: "10px 16px",
+                            background: `${theme.primary}`,
+                            color: "white",
+                            width: "max-content",
+                        }}
+                        href={Bio.github}
+                        target="_blank"
+                    >
+                        Github Profile
+                    </GithubButton>
+                </MobileMenu>
+            )}
         </Nav>
     );
 }
