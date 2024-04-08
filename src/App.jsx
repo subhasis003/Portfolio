@@ -6,6 +6,7 @@ import Hero from "./components/HeroSection";
 import Navbar from "./components/Navbar";
 import Skills from "./components/Skills";
 import { darkTheme } from "./utils/Themes";
+import Projects from "./components/Projects";
 
 const Body = styled.div`
     background-color: ${({ theme }) => theme.bg};
@@ -41,6 +42,7 @@ function App() {
                             <Skills />
                             <Education />
                         </Wrapper>
+                        <Projects/>
                     </Body>
                 </Router>
             </ThemeProvider>
